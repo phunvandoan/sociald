@@ -1,0 +1,17 @@
+.otherUser {
+  display: flex;
+}
+
+.wrapperOtherUser {
+  margin: 0 200px;
+}
+
+.listOtherUser {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.itemOtherUser {
+  list-style-type: none;
+  margin: 10px 12px;
+}

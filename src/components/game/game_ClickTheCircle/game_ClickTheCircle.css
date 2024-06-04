@@ -1,0 +1,34 @@
+.game-container {
+  /* display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0; */
+}
+
+.game-wrapper {
+  position: relative;
+  width: 70vw;
+  height: 70vh;
+  background-color: #ffffff;
+  border: 2px solid #000;
+  margin: 0 auto;
+}
+
+.circle {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}

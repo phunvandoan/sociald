@@ -1,0 +1,12 @@
+.groupText {
+  font-size: 20px;
+}
+
+.groupIcon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.groupIconItem {
+  margin: 0 10px;
+}

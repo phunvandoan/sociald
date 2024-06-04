@@ -1,0 +1,13 @@
+.wrapp {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.wrapperSideBar {
+  flex: 2.5;
+}
+
+.wrapperContainer {
+  flex: 7.5;
+}

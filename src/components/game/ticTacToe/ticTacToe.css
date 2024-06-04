@@ -1,0 +1,30 @@
+.TicTacToe_container {
+  display: flex;
+  margin: 0 auto;
+}
+
+.TicTacToe_wrapper {
+  margin: 0 auto;
+}
+.board_TicTacToe {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.square_TicTacToe {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border: 1px solid #000;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.status_TicTacToe {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}

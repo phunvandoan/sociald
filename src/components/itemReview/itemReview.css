@@ -1,0 +1,32 @@
+.reviewText {
+  font-size: 20px;
+}
+
+.reviewIconList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reviewIconItem {
+  margin: 0 10px;
+}
+
+.reviewUserName {
+  font-size: 20px;
+  font-style: italic;
+  margin-right: 30px;
+}
+
+.reviewUserImage {
+  object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.imgReview {
+  margin-top: 30px;
+  height: 400px;
+  object-fit: cover;
+}

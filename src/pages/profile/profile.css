@@ -1,0 +1,95 @@
+.profile {
+  display: flex;
+}
+
+.profileRight {
+  flex: 9;
+}
+
+.profileCover {
+  height: 320px;
+  position: relative;
+}
+
+.profileCoverImg {
+  width: 100%;
+  /* width: 1400px; */
+  height: 250px;
+  object-fit: cover;
+}
+
+.profileUserImg {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 150px;
+  border: 3px solid white;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileInfoName {
+  font-size: 24px;
+}
+
+.profileInfoDesc {
+  font-weight: 300;
+}
+
+.profileRightBottom {
+  display: flex;
+}
+
+.changeCoverPicture {
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  bottom: 70px;
+  right: 50px;
+  transition: background-color ease 0.4s;
+}
+
+.changeCoverPicture:hover {
+  background-color: rgb(187, 178, 178);
+}
+
+.iconChangeCoverPicture {
+  transform: translateY(-4px);
+  font-size: 100px;
+}
+
+.changeAvatar {
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 18px;
+  right: 600px;
+  /* width: 100px;
+  height: 100px;
+  bottom: 70px;
+  right: 50px; */
+  transition: background-color ease 0.4s;
+  background-color: rgb(230, 219, 219);
+}
+
+.changeAvatar:hover {
+  background-color: rgb(175, 166, 166);
+}

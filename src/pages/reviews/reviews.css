@@ -1,0 +1,40 @@
+.buttonCreateReview {
+  margin: 0 auto;
+  display: flex;
+  font-size: 22px;
+  font-weight: 600;
+  border: none;
+  background-color: rgb(217, 234, 250);
+  padding: 10px 30px;
+  border-radius: 10%;
+}
+
+.reviewForm {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.textReviewForm {
+  font-size: 18px;
+  border: 1px solid gray;
+  width: 400px;
+  height: 50px;
+}
+
+.textReviewForm:focus {
+  outline: none;
+}
+
+.reviewImgContainer {
+  position: relative;
+}
+
+.reviewImg {
+  object-fit: cover;
+  height: 500px;
+}
+
+.reviewCancelImg {
+  position: absolute;
+  top: 0;
+}

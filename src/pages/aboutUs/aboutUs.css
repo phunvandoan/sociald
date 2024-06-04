@@ -1,0 +1,128 @@
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.blog-container {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #4a90e2;
+  color: #fff;
+  border-bottom: 5px solid #357abd;
+  border-radius: 10px 10px 0 0;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+.banner-image {
+  width: 50%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+article {
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.introduction h2,
+.features h2,
+.technology h2,
+.benefits h2,
+.cta h2 {
+  color: #4a90e2;
+  font-size: 2em;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.introduction p,
+.technology p,
+.benefits p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.features ul,
+.technology ul,
+.benefits ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  color: #555;
+}
+
+.features ul li,
+.technology ul li,
+.benefits ul li {
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+.features ul li strong,
+.technology ul li strong,
+.benefits ul li strong {
+  color: #333;
+}
+
+.cta {
+  background-color: #e9f4ff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.cta h2 {
+  color: #357abd;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.cta p {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.cta a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cta a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #4a90e2;
+  color: #fff;
+  border-top: 5px solid #357abd;
+  border-radius: 0 0 10px 10px;
+  margin-top: 20px;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1em;
+}

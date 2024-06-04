@@ -1,0 +1,56 @@
+.comment {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.commentTop {
+  display: flex;
+}
+
+.commentImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 16px 10px 0;
+}
+
+.commentName {
+  font-size: 14px;
+}
+
+.commentTextbox {
+  padding: 10px;
+  border-radius: 20px;
+  background-color: rgb(245, 241, 241);
+  color: black;
+  max-width: 300px;
+}
+
+.commentText {
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.commentTime {
+  font-size: 12px;
+  margin: 32px 5px;
+}
+
+.wrapperSettingComment {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 40px;
+}
+
+.buttonSettingComment {
+  outline: none;
+  border: none;
+  margin: 0 10px;
+  background-color: transparent;
+}
+
+.settingComment {
+  font-style: italic;
+}

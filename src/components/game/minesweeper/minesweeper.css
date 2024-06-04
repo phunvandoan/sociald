@@ -1,0 +1,30 @@
+.minesweeper-board {
+  display: grid;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.minesweeper-row {
+  display: flex;
+}
+
+.minesweeper-cell {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.minesweeper-cell.revealed {
+  background-color: #fff;
+  cursor: default;
+}
+
+.minesweeper-cell.flagged {
+  background-color: #ff0;
+}
