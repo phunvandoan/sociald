@@ -75,7 +75,9 @@ function ProfileRightbar({ user, friends }) {
         </button>
       )}
       {currentUser._id !== user._id &&
-        (conversation.some((c) => c.members[0 && 1] === user._id) ? (
+        (conversation.some(
+          (c) => c.members[0] === user._id || c.members[1] === user._id
+        ) ? (
           <button className="rightbarMessageButton">
             <Link to="/messenger">message</Link>
           </button>
