@@ -6,7 +6,7 @@ import ChatOnline from "../../components/chatOnline/ChatOnline";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -15,22 +15,22 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  // const socket = useRef();
+  const socket = useRef();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef();
 
   useEffect(() => {
-    // socket.current = io("ws://localhost:8900");
-    // socket.current.on("getMessage", (data) => {
-    //   setArrivalMessage({
-    //     sender: data.senderId,
-    //     text: data.text,
-    //     createdAt: Date.now(),
-    //   });
-    // });
-    // return () => {
-    //   socket.current.disconnect();
-    // };
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+    return () => {
+      socket.current.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -42,14 +42,14 @@ export default function Messenger() {
     }
   }, [arrivalMessage, currentChat]);
 
-  // useEffect(() => {
-  //   socket.current.emit("addUser", user._id);
-  //   socket.current.on("getUsers", (users) => {
-  //     setOnlineUsers(
-  //       user.followings.filter((f) => users.some((u) => u.userId === f))
-  //     );
-  //   });
-  // }, [user]);
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+    socket.current.on("getUsers", (users) => {
+      setOnlineUsers(
+        user.followings.filter((f) => users.some((u) => u.userId === f))
+      );
+    });
+  }, [user]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -89,15 +89,15 @@ export default function Messenger() {
       conversationId: currentChat._id,
     };
 
-    // const receiverId = currentChat.members.find(
-    //   (member) => member !== user._id
-    // );
+    const receiverId = currentChat.members.find(
+      (member) => member !== user._id
+    );
 
-    // socket.current.emit("sendMessage", {
-    //   senderId: user._id,
-    //   receiverId,
-    //   text: newMessage,
-    // });
+    socket.current.emit("sendMessage", {
+      senderId: user._id,
+      receiverId,
+      text: newMessage,
+    });
 
     try {
       const res = await axios.post(
