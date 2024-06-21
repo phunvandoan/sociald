@@ -19,6 +19,7 @@ const Map = () => {
     let waypoints = [];
     let markers = [];
     let routingControl = null;
+    let pointsSelected = false;
 
     map.on("click", (e) => {
       const marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
@@ -33,6 +34,7 @@ const Map = () => {
         routingControl = L.Routing.control({
           waypoints: waypoints,
         }).addTo(map);
+        pointsSelected = true; // Set flag to true once two points are selected
       }
     });
 
@@ -76,6 +78,7 @@ const Map = () => {
           routingControl = L.Routing.control({
             waypoints: waypoints,
           }).addTo(map);
+          pointsSelected = true; // Set flag to true once two points are selected
         }
       })
       .addTo(map);
