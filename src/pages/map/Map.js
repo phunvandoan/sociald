@@ -35,9 +35,6 @@ const Map = () => {
       waypoints.push(L.latLng(e.latlng.lat, e.latlng.lng));
 
       if (waypoints.length === 2) {
-        if (routingControl) {
-          map.removeControl(routingControl);
-        }
         routingControl = L.Routing.control({
           waypoints: waypoints,
         }).addTo(map);
@@ -87,7 +84,7 @@ const Map = () => {
   }, []);
 
   return (
-    <Wrapper sologan={"My Map 🏩"}>
+    <Wrapper sologan={"My Map 🚗"}>
       <div id="map" style={{ width: "100%", height: "80vh" }} />
     </Wrapper>
   );
