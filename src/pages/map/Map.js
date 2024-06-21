@@ -35,6 +35,9 @@ const Map = () => {
       waypoints.push(L.latLng(e.latlng.lat, e.latlng.lng));
 
       if (waypoints.length === 2) {
+        if (routingControl) {
+          map.removeControl(routingControl);
+        }
         routingControl = L.Routing.control({
           waypoints: waypoints,
         }).addTo(map);
