@@ -28,7 +28,6 @@ const Map = () => {
     let waypoints = [];
     let markers = [];
     let routingControl = null;
-    // let pointsSelected = false;
     map.on("click", (e) => {
       if (waypoints.length === 2) return;
       const marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
@@ -36,14 +35,9 @@ const Map = () => {
       waypoints.push(L.latLng(e.latlng.lat, e.latlng.lng));
 
       if (waypoints.length === 2) {
-        // if (routingControl) {
-        //   map.removeControl(routingControl);
-        // }
-
         routingControl = L.Routing.control({
           waypoints: waypoints,
         }).addTo(map);
-        // pointsSelected = true; // Set flag to true once two points are selected
       }
     });
 
@@ -59,7 +53,6 @@ const Map = () => {
           map.removeControl(routingControl);
           routingControl = null;
         }
-        // pointsSelected = false; // Reset flag when points are cleared
       }
     });
 
@@ -68,14 +61,6 @@ const Map = () => {
     })
       .on("markgeocode", (e) => {
         if (waypoints.length === 2) return;
-        // const bbox = e.geocode.bbox;
-        // const poly = L.polygon([
-        //   bbox.getSouthEast(),
-        //   bbox.getNorthEast(),
-        //   bbox.getNorthWest(),
-        //   bbox.getSouthWest(),
-        // ]).addTo(map);
-        // map.fitBounds(poly.getBounds());
 
         const marker = L.marker(e.geocode.center).addTo(map);
         markers.push(marker);
@@ -89,7 +74,6 @@ const Map = () => {
           routingControl = L.Routing.control({
             waypoints: waypoints,
           }).addTo(map);
-          // pointsSelected = true; // Set flag to true once two points are selected
         }
       })
       .addTo(map);
@@ -100,7 +84,7 @@ const Map = () => {
   }, []);
 
   return (
-    <Wrapper sologan={"My Schooll 🏩"}>
+    <Wrapper sologan={"My Map 🏩"}>
       <div id="map" style={{ width: "100%", height: "80vh" }} />
     </Wrapper>
   );
