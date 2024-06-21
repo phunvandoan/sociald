@@ -55,14 +55,14 @@ const Map = () => {
       defaultMarkGeocode: false,
     })
       .on("markgeocode", (e) => {
-        const bbox = e.geocode.bbox;
-        const poly = L.polygon([
-          bbox.getSouthEast(),
-          bbox.getNorthEast(),
-          bbox.getNorthWest(),
-          bbox.getSouthWest(),
-        ]).addTo(map);
-        map.fitBounds(poly.getBounds());
+        // const bbox = e.geocode.bbox;
+        // const poly = L.polygon([
+        //   bbox.getSouthEast(),
+        //   bbox.getNorthEast(),
+        //   bbox.getNorthWest(),
+        //   bbox.getSouthWest(),
+        // ]).addTo(map);
+        // map.fitBounds(poly.getBounds());
 
         const marker = L.marker(e.geocode.center).addTo(map);
         markers.push(marker);
