@@ -19,22 +19,22 @@ const Map = () => {
     let waypoints = [];
     let markers = [];
     let routingControl = null;
-    let pointsSelected = false;
-
+    // let pointsSelected = false;
     map.on("click", (e) => {
+      if (waypoints.length === 2) return;
       const marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
       markers.push(marker);
       waypoints.push(L.latLng(e.latlng.lat, e.latlng.lng));
 
       if (waypoints.length === 2) {
-        if (routingControl) {
-          map.removeControl(routingControl);
-        }
+        // if (routingControl) {
+        //   map.removeControl(routingControl);
+        // }
 
         routingControl = L.Routing.control({
           waypoints: waypoints,
         }).addTo(map);
-        pointsSelected = true; // Set flag to true once two points are selected
+        // pointsSelected = true; // Set flag to true once two points are selected
       }
     });
 
@@ -50,6 +50,7 @@ const Map = () => {
           map.removeControl(routingControl);
           routingControl = null;
         }
+        // pointsSelected = false; // Reset flag when points are cleared
       }
     });
 
@@ -57,6 +58,7 @@ const Map = () => {
       defaultMarkGeocode: false,
     })
       .on("markgeocode", (e) => {
+        if (waypoints.length === 2) return;
         // const bbox = e.geocode.bbox;
         // const poly = L.polygon([
         //   bbox.getSouthEast(),
@@ -78,7 +80,7 @@ const Map = () => {
           routingControl = L.Routing.control({
             waypoints: waypoints,
           }).addTo(map);
-          pointsSelected = true; // Set flag to true once two points are selected
+          // pointsSelected = true; // Set flag to true once two points are selected
         }
       })
       .addTo(map);
