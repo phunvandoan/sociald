@@ -20,7 +20,7 @@ export default function Messenger() {
   const scrollRef = useRef();
 
   useEffect(() => {
-    socket.current = io("wss://socket-of-social-d.vercel.app/");
+    socket.current = io("wsa://socket-of-social-d.vercel.app/");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,
