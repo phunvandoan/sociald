@@ -16,7 +16,7 @@ function Testimonials() {
     },
     {
       id: 2,
-      name: "Dương Quang Thái",
+      name: "Phạm Đức Sơn",
       title: "Co-Founder of DELKA",
       img: `${PF}person/noAvatar.png`,
       icon: `${PFIC}/youtube.png`,
@@ -25,7 +25,7 @@ function Testimonials() {
     },
     {
       id: 3,
-      name: "Le Thi Kieu Ngan",
+      name: "Phạm Thắm",
       title: "CEO of ALBI",
       img: `${PF}person/noAvatar.png`,
       icon: `${PFIC}/linkedin.png`,
