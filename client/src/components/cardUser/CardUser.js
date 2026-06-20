@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import "./cardUser.css";
 
 function CardUser({ userOther, currentUser, handleClick }) {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  console.log(userOther);
   return (
     <Card className="cardUser">
       <Link
@@ -15,11 +13,7 @@ function CardUser({ userOther, currentUser, handleClick }) {
         <Card.Img
           className="itemFollowUseImg"
           variant="top"
-          src={
-            userOther?.profilePicture
-              ? PF + userOther?.profilePicture
-              : PF + `person/noAvatar.png`
-          }
+          src={userOther?.avatar}
         />
       </Link>
       <Card.Body>
@@ -27,12 +21,12 @@ function CardUser({ userOther, currentUser, handleClick }) {
         <Card.Text className="text-truncate">
           {userOther?.desc || "im don't like tell about me"}
         </Card.Text>
-        <p className="followerOfUser">{userOther?.followers?.length} follow</p>
+        <p className="followerOfUser">{userOther?.followers?.length} theo dõi</p>
         {userOther?.username !== currentUser?.username && (
           <Button variant="primary" onClick={() => handleClick(userOther)}>
             {currentUser?.followings.includes(userOther?._id)
-              ? "Unfollow"
-              : "Follow"}
+              ? "Bỏ theo dõi"
+              : "Theo dõi"}
             {currentUser?.followings.includes(userOther?._id) ? (
               <Remove />
             ) : (

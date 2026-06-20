@@ -12,7 +12,7 @@ export default function Conversation({ conversation, currentUser }) {
     const getUser = async () => {
       try {
         const res = await axios(
-          "https://sociald.onrender.com/api/users?userId=" + friendId
+          "http://localhost:8800/api/users?userId=" + friendId,
         );
         setUser(res.data);
       } catch (err) {
@@ -24,15 +24,7 @@ export default function Conversation({ conversation, currentUser }) {
 
   return (
     <div className="conversation">
-      <img
-        className="conversationImg"
-        src={
-          user?.profilePicture
-            ? PF + user.profilePicture
-            : PF + "person/noAvatar.png"
-        }
-        alt=""
-      />
+      <img className="conversationImg" src={user?.avatar} alt="" />
       <span className="conversationName">{user?.username}</span>
     </div>
   );

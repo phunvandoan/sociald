@@ -46,7 +46,7 @@ const rotate = (shape) => {
 
 const Tetris = () => {
   const [board, setBoard] = useState(
-    Array.from({ length: ROWS }, () => Array(COLS).fill(0))
+    Array.from({ length: ROWS }, () => Array(COLS).fill(0)),
   );
   const [current, setCurrent] = useState(getRandomShape());
   const [gameOver, setGameOver] = useState(false);
@@ -56,7 +56,7 @@ const Tetris = () => {
     shape.forEach((row, i) =>
       row.forEach((cell, j) => {
         if (cell && y + i >= 0) newBoard[y + i][x + j] = cell;
-      })
+      }),
     );
     return newBoard;
   };
@@ -74,7 +74,7 @@ const Tetris = () => {
           newX < COLS &&
           !board[newY][newX]
         );
-      })
+      }),
     );
   };
 
@@ -145,7 +145,7 @@ const Tetris = () => {
           break;
       }
     },
-    [current, board, gameOver]
+    [current, board, gameOver],
   );
 
   useEffect(() => {
@@ -196,14 +196,14 @@ const Tetris = () => {
                     height: BLOCK_SIZE,
                   }}
                 ></div>
-              )
-          )
+              ),
+          ),
         )}
       </div>
       {gameOver && (
         <div className="tetris-game-over">
           <p>Game Over</p>
-          <button onClick={resetGame}>Reset</button>
+          <button onClick={resetGame}>Đặt lại</button>
         </div>
       )}
     </div>

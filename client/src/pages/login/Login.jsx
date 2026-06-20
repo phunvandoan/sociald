@@ -5,27 +5,54 @@ import { CircularProgress } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import { loginCall } from "../../apiCall";
 import SignUpAndIn from "../../components/signUpAndIn/SignUpAndIn";
+import { GoogleLogin } from "@react-oauth/google";
+import { googleLoginApi } from "../../api/auth.api";
+import useAppStore from "../../store/useAppStore.store";
 
 function Login() {
   const email = useRef();
   const password = useRef();
   const { isFetching, error, dispatch } = useContext(AuthContext);
+  const { setUser } = useAppStore();
 
   const handleClick = useCallback(
     (e) => {
       e.preventDefault();
       loginCall(
         { email: email.current.value, password: password.current.value },
-        dispatch
+        dispatch,
       );
     },
-    [dispatch]
+    [dispatch],
   );
+
+  const handleSignInWithGoogle = async (credentialResponse) => {
+    dispatch({ type: "LOGIN_START" });
+
+    try {
+      const res = await googleLoginApi({
+        token: credentialResponse.credential,
+      });
+      const user = res.data;
+
+      setUser(user);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+    } catch (err) {
+      dispatch({
+        type: "LOGIN_FAILURE",
+        payload: err.response?.data || err.message,
+      });
+    }
+  };
 
   return (
     <SignUpAndIn>
+      <div></div>
       <form className="loginBox" onSubmit={handleClick} method="POST">
-        {error && <Alert variant={"warning"}>email or password wrong</Alert>}
+        {error && <Alert variant={"warning"}>email hoặc password sai</Alert>}
         <input
           className="loginInput"
           placeholder="Email"
@@ -35,7 +62,7 @@ function Login() {
         />
         <input
           className="loginInput"
-          placeholder="Password"
+          placeholder="Mật khẩu"
           type="password"
           minLength={6}
           required
@@ -45,15 +72,9 @@ function Login() {
           {isFetching ? (
             <CircularProgress color="inherit" size="20px"></CircularProgress>
           ) : (
-            "Log In"
+            "Đăng nhập"
           )}
         </button>
-        <Link
-          to="/DemoAccount"
-          style={{ margin: "0 auto", fontSize: "20px", fontStyle: "italic" }}
-        >
-          <span className="loginForgot">used account demo</span>
-        </Link>
         <Link
           to="/register"
           style={{
@@ -63,8 +84,14 @@ function Login() {
             textDecoration: "none",
           }}
         >
-          <button className="loginRegisterButton">Create Account</button>
+          <button className="loginRegisterButton">Tạo tài khoản</button>
         </Link>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            const token = credentialResponse.credential;
+            handleSignInWithGoogle(credentialResponse);
+          }}
+        />
       </form>
     </SignUpAndIn>
   );

@@ -95,7 +95,7 @@ function Game2048() {
           </div>
         ))}
       </div>
-      <p className="game-2048-score">Score: {score}</p>
+      <p className="game-2048-score">Điểm: {score}</p>
     </div>
   );
 }

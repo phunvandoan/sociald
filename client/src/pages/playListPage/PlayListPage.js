@@ -24,7 +24,7 @@ function PlayListPage() {
     const getAllSong = async () => {
       try {
         const res = await axios.get(
-          `https://sociald.onrender.com/api/musics/allMusic`
+          `http://localhost:8800/api/musics/allMusic`,
         );
         setSongs(res.data.reverse());
         if (res.data.length > 0) {
@@ -51,7 +51,7 @@ function PlayListPage() {
       data.append("file", file);
       newMusic.url = fileName;
       try {
-        await axios.post("https://sociald.onrender.com/api/upload", data);
+        await axios.post("http://localhost:8800/api/upload", data);
         console.log("updateSuccess");
       } catch (err) {
         console.log(err);
@@ -59,8 +59,8 @@ function PlayListPage() {
     }
     try {
       const res = await axios.post(
-        `https://sociald.onrender.com/api/musics`,
-        newMusic
+        `http://localhost:8800/api/musics`,
+        newMusic,
       );
       setSongs([res.data, ...songs]);
       inputSongRef.current.value = "";
@@ -74,12 +74,12 @@ function PlayListPage() {
 
   const handleDelete = async (song) => {
     try {
-      await axios.delete(`https://sociald.onrender.com/api/delete/${song.url}`);
+      await axios.delete(`http://localhost:8800/api/delete/${song.url}`);
     } catch (err) {
       console.log(err);
     }
     try {
-      axios.delete(`https://sociald.onrender.com/api/musics/${song._id}`, {
+      axios.delete(`http://localhost:8800/api/musics/${song._id}`, {
         data: {
           isAdmin: currentUser.isAdmin,
         },
@@ -104,9 +104,7 @@ function PlayListPage() {
       }
       if (file) {
         try {
-          await axios.delete(
-            `https://sociald.onrender.com/api/delete/${song.url}`
-          );
+          await axios.delete(`http://localhost:8800/api/delete/${song.url}`);
         } catch (err) {
           console.log(err);
         }
@@ -116,17 +114,14 @@ function PlayListPage() {
         data.append("file", file);
         newMusic.url = fileName;
         try {
-          await axios.post("https://sociald.onrender.com/api/upload", data);
+          await axios.post("http://localhost:8800/api/upload", data);
           console.log("updateSuccess");
         } catch (err) {
           console.log(err);
         }
       }
       try {
-        axios.put(
-          `https://sociald.onrender.com/api/musics/${song._id}`,
-          newMusic
-        );
+        axios.put(`http://localhost:8800/api/musics/${song._id}`, newMusic);
         setSongs(
           songs.map((s) => {
             if (s._id === song._id) {
@@ -135,7 +130,7 @@ function PlayListPage() {
                 s.artist = newMusic.artist;
             }
             return s;
-          })
+          }),
         );
         inputSongRef.current.value = "";
         inputSongRef.current.value = "";
@@ -171,13 +166,13 @@ function PlayListPage() {
               type="text"
               className="textReviewForm"
               ref={inputSongRef}
-              placeholder="nam song "
+              placeholder="tên bài hát "
             />
             <input
               type="text"
               className="textReviewForm"
               ref={inputArtistRef}
-              placeholder="nam singer "
+              placeholder="tên ca sĩ "
             />
             <label htmlFor="fileReviewForm">
               <FileCopySharp />
@@ -238,7 +233,7 @@ function PlayListPage() {
                 setIsPlaying(true);
               } else if (mode === "sequential") {
                 const currentIndex = songs.findIndex(
-                  (song) => song._id === currentSong._id
+                  (song) => song._id === currentSong._id,
                 );
                 const nextIndex = (currentIndex + 1) % songs.length;
                 setCurrentSong(songs[nextIndex]);

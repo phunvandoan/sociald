@@ -19,6 +19,7 @@ import {
   PersonPinCircle,
   Quiz,
   Info,
+  Dashboard,
 } from "@mui/icons-material";
 import CloseFriend from "../closeFriend/CloseFriend";
 import { Link } from "react-router-dom";
@@ -41,79 +42,77 @@ export default function Sidebar() {
           <Link to="/feedPage">
             <li className="sidebarListItem">
               <RssFeed className="sidebarIcon" />
-              <span className="sidebarListItemText">Feed</span>
+              <span className="sidebarListItemText">Bảng tin</span>
             </li>
           </Link>
           <Link to="/videoPage">
             <li className="sidebarListItem">
               <PlayCircleFilledOutlined className="sidebarIcon" />
-              <span className="sidebarListItemText">Videos</span>
+              <span className="sidebarListItemText">Video</span>
             </li>
           </Link>
           <Link to="/playListPage">
             <li className="sidebarListItem">
               <PlaylistAddCheckCircle className="sidebarIcon" />
-              <span className="sidebarListItemText">Play List</span>
+              <span className="sidebarListItemText">Danh sách phát</span>
             </li>
           </Link>
           <Link to="/savePostPage">
             <li className="sidebarListItem">
               <BookmarkAdded className="sidebarIcon" />
-              <span className="sidebarListItemText">Save Post</span>
+              <span className="sidebarListItemText">Lưu bài viết</span>
             </li>
           </Link>
           <Link to="/gamePage">
             <li className="sidebarListItem">
               <Gamepad className="sidebarIcon" />
-              <span className="sidebarListItemText">Game</span>
+              <span className="sidebarListItemText">Trò chơi</span>
             </li>
           </Link>
           <Link to="/eventsPage">
             <li className="sidebarListItem">
               <Event className="sidebarIcon" />
-              <span className="sidebarListItemText">Events</span>
-            </li>
-          </Link>
-          <Link to="/career">
-            <li className="sidebarListItem">
-              <BusinessCenter className="sidebarIcon" />
-              <span className="sidebarListItemText">Career</span>
-            </li>
-          </Link>
-          <Link to="/quiz" target="_blank">
-            <li className="sidebarListItem">
-              <Quiz className="sidebarIcon" />
-              <span className="sidebarListItemText">Quiz</span>
+              <span className="sidebarListItemText">Sự kiện</span>
             </li>
           </Link>
           <Link to="/map">
             <li className="sidebarListItem">
               <PersonPinCircle className="sidebarIcon" />
-              <span className="sidebarListItemText">Map</span>
+              <span className="sidebarListItemText">Bản đồ</span>
             </li>
           </Link>
           <Link to="/aboutUs">
             <li className="sidebarListItem">
               <Info className="sidebarIcon" />
-              <span className="sidebarListItemText">About us</span>
+              <span className="sidebarListItemText">Về chúng tôi</span>
             </li>
           </Link>
           <Link to="/reviews">
             <li className="sidebarListItem">
               <Reviews className="sidebarIcon" />
-              <span className="sidebarListItemText">Reviews</span>
+              <span className="sidebarListItemText">Đánh giá</span>
             </li>
           </Link>
-          <Link to="/settingsPage">
-            <li className="sidebarListItem">
-              <Settings className="sidebarIcon" />
-              <span className="sidebarListItemText">Settings</span>
-            </li>
-          </Link>
+          {!currentUser?.isAdmin && (
+            <Link to="/settingsPage">
+              <li className="sidebarListItem">
+                <Settings className="sidebarIcon" />
+                <span className="sidebarListItemText">Cài đặt</span>
+              </li>
+            </Link>
+          )}
+          {currentUser?.isAdmin && (
+            <Link to="/DashboardAdmin">
+              <li className="sidebarListItem">
+                <Dashboard className="sidebarIcon" />
+                <span className="sidebarListItemText">Bảng điều khiển</span>
+              </li>
+            </Link>
+          )}
         </ul>
         <hr className="sidebarHr" />
         <Link to="/otherUser">
-          <div className="sidebarShowAll">Other user</div>
+          <div className="sidebarShowAll">Người dùng khác</div>
         </Link>
         <ul className="sidebarFriendList">
           {userOthers.slice(0, 8).map((u) => (
@@ -124,14 +123,3 @@ export default function Sidebar() {
     </div>
   );
 }
-
-/* <button className="sidebarButton">Show More</button> */
-// icon rating
-// HelpOutline
-// Bookmark
-/* <Link>
-  <li className="sidebarListItem">
-      <School className="sidebarIcon" />
-  <span className="sidebarListItemText">Courses</span>
-</li>
-</Link> */

@@ -52,15 +52,17 @@ function TicTacToe() {
   return (
     <div className="TicTacToe_container">
       <div className="TicTacToe_wrapper">
-        <h2>Tic Tac Toe</h2>
+        <h2>Cờ Caro</h2>
         <div className="board_TicTacToe">
           {board.map((_, index) => renderSquare(index))}
         </div>
         <div className="status_TicTacToe">
-          {winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? "X" : "O"}`}
+          {winner
+            ? `Người chiến thắng: ${winner}`
+            : `Người chơi tiếp theo: ${xIsNext ? "X" : "O"}`}
         </div>
         <button onClick={resetGame} style={{ marginTop: "20px" }}>
-          Reset
+          Đặt lại
         </button>
       </div>
     </div>

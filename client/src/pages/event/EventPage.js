@@ -22,7 +22,7 @@ function EventPage() {
     const getDateSchedule = async () => {
       try {
         const res = await axios.get(
-          `https://sociald.onrender.com/api/calendars/getAll/${currentUser._id}`
+          `http://localhost:8800/api/calendars/getAll/${currentUser._id}`,
         );
         setDateSchedules(res.data.reverse());
       } catch (err) {
@@ -42,8 +42,8 @@ function EventPage() {
         text: inputRef.current.value,
       };
       const res = await axios.post(
-        `https://sociald.onrender.com/api/calendars/`,
-        newDateSchedule
+        `http://localhost:8800/api/calendars/`,
+        newDateSchedule,
       );
       setDateSchedules([res.data, ...dateSchedules]);
       inputRef.current.value = "";
@@ -62,8 +62,8 @@ function EventPage() {
         newDateSchedule.text = inputRef?.current?.value;
       if (date) newDateSchedule.date = date;
       await axios.put(
-        `https://sociald.onrender.com/api/calendars/${d._id}`,
-        newDateSchedule
+        `http://localhost:8800/api/calendars/${d._id}`,
+        newDateSchedule,
       );
       setDateSchedules(
         dateSchedules.map((dateSchedule) => {
@@ -75,7 +75,7 @@ function EventPage() {
             };
           }
           return dateSchedule;
-        })
+        }),
       );
       inputRef.current.value = "";
       setShowCreateDateSchedule(false);
@@ -86,16 +86,13 @@ function EventPage() {
 
   const hanldeDeleteDateSchedule = async (d) => {
     try {
-      await axios.delete(
-        `https://sociald.onrender.com/api/calendars/${d._id}`,
-        {
-          data: {
-            userId: currentUser._id,
-          },
-        }
-      );
+      await axios.delete(`http://localhost:8800/api/calendars/${d._id}`, {
+        data: {
+          userId: currentUser._id,
+        },
+      });
       setDateSchedules(
-        dateSchedules.filter((dateSchedule) => dateSchedule._id !== d._id)
+        dateSchedules.filter((dateSchedule) => dateSchedule._id !== d._id),
       );
     } catch (err) {
       console.log(err);
@@ -128,7 +125,7 @@ function EventPage() {
             ref={inputRef}
             onKeyDown={handleKey}
             className="textDataSchedule"
-            placeholder="write noted"
+            placeholder="viết ghi chú"
           />
         )}
         <Calendar onChange={onChange} value={date} />

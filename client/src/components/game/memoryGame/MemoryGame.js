@@ -43,7 +43,7 @@ function MemoryGame() {
 
   return (
     <div>
-      <h2 className="titleGame">Memory Game</h2>
+      <h2 className="titleGame">Trò chơi Trí nhớ</h2>
       <div className="memory-game-board">
         {cards.map((card, index) => (
           <div
@@ -61,9 +61,9 @@ function MemoryGame() {
         ))}
       </div>
       <div className="memory-game-info">
-        <p>Moves: {moves}</p>
+        <p>Lượt chơi: {moves}</p>
         <button onClick={resetGame} style={{ marginTop: "20px" }}>
-          Reset
+          Đặt lại
         </button>
       </div>
     </div>

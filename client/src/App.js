@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,14 +23,31 @@ import EventPage from "./pages/event/EventPage";
 import GamePage from "./pages/gamePage/GamePage";
 import SavePostPage from "./pages/savePost/SavePostPage";
 import PlayListPage from "./pages/playListPage/PlayListPage";
-import Career from "./pages/careers/Career";
 import Map from "./pages/map/Map";
-import Quiz from "./pages/quiz/Quiz";
 import Menu from "./pages/pageResponsive/menu/Menu";
-import DemoAccountPage from "./pages/accoutDemo/DemoAccountPage";
+import AdminDashboard from "./pages/admin/dashboard";
+import ContentManagement from "./pages/admin/ContentManagement";
+import EntertainmentManagement from "./pages/admin/EntertainmentManagement";
+import AdminDashboardStats from "./pages/admin/AdminDashboard";
+import useAppStore from "./store/useAppStore.store";
+import { getUserApi } from "./api/user.api";
+import DashboardAdmin from "./pages/admin/AdminDashboard";
 
 function App() {
   const { user } = useContext(AuthContext);
+  const { setUser, setUserLoading } = useAppStore();
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      const fetchedUser = async () => {
+        const user = await getUserApi(storedUser?._id, setUserLoading);
+        setUser(user);
+      };
+      fetchedUser();
+    }
+  }, []);
+
   return (
     <Router>
       <Routes>
@@ -79,7 +96,9 @@ function App() {
         ></Route>
         <Route
           path="/settingsPage"
-          element={user ? <SettingsPage /> : <Navigate to="/login" />}
+          element={
+            user && !user?.isAdmin ? <SettingsPage /> : <Navigate to="/login" />
+          }
         ></Route>
         <Route
           path="/eventsPage"
@@ -98,24 +117,25 @@ function App() {
           element={user ? <PlayListPage /> : <Navigate to="/login" />}
         ></Route>
         <Route
-          path="/career"
-          element={user ? <Career /> : <Navigate to="/login" />}
-        ></Route>
-        <Route
           path="/map"
           element={user ? <Map /> : <Navigate to="/login" />}
-        ></Route>
-        <Route
-          path="/quiz"
-          element={user ? <Quiz /> : <Navigate to="/login" />}
         ></Route>
         <Route
           path="/menuResponsive"
           element={user ? <Menu /> : <Navigate to="/login" />}
         ></Route>
+        <Route path="/DashboardAdmin" element={<DashboardAdmin />}></Route>
         <Route
-          path="/DemoAccount"
-          element={user ? <Navigate to="/" /> : <DemoAccountPage />}
+          path="/admin/ContentManagement"
+          element={<ContentManagement />}
+        ></Route>
+        <Route
+          path="/admin/EntertainmentManagement"
+          element={<EntertainmentManagement />}
+        ></Route>
+        <Route
+          path="/admin/DashboardStats"
+          element={<AdminDashboardStats />}
         ></Route>
       </Routes>
     </Router>
@@ -123,15 +143,3 @@ function App() {
 }
 
 export default App;
-
-/* <Route path="/profile/:username" element={<Profile />} /> */
-/* <Route path="/register" element={<Register />} /> */
-/* <Route path="/login" element={<Login />} /> */
-
-/* <Route path="/feedPage" element={<FeedPage />}></Route>
-        <Route path="/otherUser" element={<OtherUser />}></Route>
-        <Route path="/followUser" element={<FollowUser />}></Route>
-        <Route path="/notification" element={<Notification />}></Route>
-        <Route path="/videoPage" element={<VideoPage />}></Route>
-        <Route path="/groupPage" element={<GroupPage />}></Route>
-        <Route path="/aboutUs" element={<AboutUs />}></Route> */

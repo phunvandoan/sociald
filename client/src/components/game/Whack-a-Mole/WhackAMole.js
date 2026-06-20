@@ -28,7 +28,7 @@ function WhackAMole() {
 
   return (
     <div>
-      <h2 className="titleGame">Whack-a-Mole</h2>
+      <h2 className="titleGame">Đập chuột</h2>
       <div className="whack-a-mole-board">
         {moles.map((mole, index) => (
           <div
@@ -38,7 +38,7 @@ function WhackAMole() {
           ></div>
         ))}
       </div>
-      <p className="whack-a-mole-score">Score: {score}</p>
+      <p className="whack-a-mole-score">Điểm: {score}</p>
     </div>
   );
 }

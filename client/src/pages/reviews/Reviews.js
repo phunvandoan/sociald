@@ -20,7 +20,7 @@ function Reviews() {
     const getAllReviews = async () => {
       try {
         const res = await axios.get(
-          `https://sociald.onrender.com/api/reviews/getAllReview`
+          `http://localhost:8800/api/reviews/getAllReview`,
         );
         setReviews(res.data.reverse());
       } catch (err) {
@@ -45,7 +45,7 @@ function Reviews() {
         data.append("file", file);
         newReview.img = fileName;
         try {
-          await axios.post("https://sociald.onrender.com/api/upload", data);
+          await axios.post("http://localhost:8800/api/upload", data);
           console.log("updateSuccess");
         } catch (err) {
           console.log(err);
@@ -53,8 +53,8 @@ function Reviews() {
       }
       try {
         const res = await axios.post(
-          `https://sociald.onrender.com/api/reviews`,
-          newReview
+          `http://localhost:8800/api/reviews`,
+          newReview,
         );
         setReviews([res.data, ...reviews]);
         inputRef.current.value = "";
@@ -71,14 +71,12 @@ function Reviews() {
 
   const handleDelete = async (review) => {
     try {
-      await axios.delete(
-        `https://sociald.onrender.com/api/delete/${review.img}`
-      );
+      await axios.delete(`http://localhost:8800/api/delete/${review.img}`);
     } catch (err) {
       console.log(err);
     }
     try {
-      axios.delete(`https://sociald.onrender.com/api/reviews/${review._id}`, {
+      axios.delete(`http://localhost:8800/api/reviews/${review._id}`, {
         data: {
           userId: currentUser._id,
           isAdmin: currentUser.isAdmin,
@@ -108,9 +106,7 @@ function Reviews() {
       }
 
       try {
-        await axios.delete(
-          `https://sociald.onrender.com/api/delete/${review.img}`
-        );
+        await axios.delete(`http://localhost:8800/api/delete/${review.img}`);
       } catch (err) {
         console.log(err);
       }
@@ -121,17 +117,14 @@ function Reviews() {
         data.append("file", file);
         newReview.img = fileName;
         try {
-          await axios.post("https://sociald.onrender.com/api/upload", data);
+          await axios.post("http://localhost:8800/api/upload", data);
           console.log("updateSuccess");
         } catch (err) {
           console.log(err);
         }
       }
       try {
-        axios.put(
-          `https://sociald.onrender.com/api/reviews/${review._id}`,
-          newReview
-        );
+        axios.put(`http://localhost:8800/api/reviews/${review._id}`, newReview);
         setReviews(
           reviews.map((r) => {
             if (r._id === review._id) {
@@ -140,7 +133,7 @@ function Reviews() {
               if (newReview.img) r.img = newReview.img;
             }
             return r;
-          })
+          }),
         );
         inputRef.current.value = "";
         setShowCreateReview(false);
@@ -172,7 +165,7 @@ function Reviews() {
             type="text"
             className="textReviewForm"
             ref={inputRef}
-            placeholder="write your review "
+            placeholder="viết đánh giá của bạn "
           />
           <label htmlFor="fileReviewForm">
             <FileCopySharp />

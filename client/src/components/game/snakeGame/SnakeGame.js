@@ -103,7 +103,7 @@ function SnakeGame() {
       {gameOver && (
         <div className="game-over_snakeGame">
           <p>Game Over</p>
-          <button onClick={resetGame}>Restart</button>
+          <button onClick={resetGame}>Bắt đầu lại</button>
         </div>
       )}
     </div>

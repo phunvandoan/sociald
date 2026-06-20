@@ -1,9 +1,9 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import Post from "../post/Post";
-import Share from "../share/Share";
 import { AuthContext } from "../../context/AuthContext";
 import "./feed.css";
 import { getPost } from "../../apiCall";
+import Share from "../ui/share/Share";
+import Post from "../ui/post/Post";
 
 export default function Feed({ username }) {
   const [posts, setPosts] = useState([]);
@@ -35,7 +35,7 @@ export default function Feed({ username }) {
     if (!username) {
       localStorage.setItem(
         "postFriend",
-        JSON.stringify(posts.filter((p) => p.userId !== user._id))
+        JSON.stringify(posts.filter((p) => p.userId !== user._id)),
       );
     }
   }, [posts, username, user]);

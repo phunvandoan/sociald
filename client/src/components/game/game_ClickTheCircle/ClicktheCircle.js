@@ -43,7 +43,7 @@ function ClicktheCircle() {
           style={{ top: `${position.top}px`, left: `${position.left}px` }}
           onClick={handleCircleClick}
         ></div>
-        <div className="score">Score: {score}</div>
+        <div className="score">Điểm: {score}</div>
       </div>
     </div>
   );

@@ -17,8 +17,8 @@ function SongItem({ song, setCurrentSong, onUpdate, onDelete }) {
       </Alert>
       {currentUser.isAdmin && (
         <>
-          <Button onClick={onUpdate}>Update</Button>
-          <Button onClick={onDelete}>Delete</Button>
+          <Button onClick={onUpdate}>Cập nhật</Button>
+          <Button onClick={onDelete}>Xóa</Button>
         </>
       )}
     </>

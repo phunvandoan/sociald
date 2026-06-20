@@ -11,8 +11,9 @@ const PostSchema = new mongoose.Schema(
       default: "",
       max: 500,
     },
-    img: {
-      type: String,
+    urlUploadContent: {
+      type: Array,
+      default: [],
     },
     likes: {
       type: Array,
@@ -23,7 +24,7 @@ const PostSchema = new mongoose.Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Post", PostSchema);

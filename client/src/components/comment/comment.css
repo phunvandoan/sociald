@@ -54,3 +54,101 @@
 .settingComment {
   font-style: italic;
 }
+
+.buttonReportComment {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #65676b;
+  transition: all 0.2s ease;
+}
+
+.buttonReportComment:hover {
+  color: #f02849;
+  transform: scale(1.1);
+}
+
+.buttonReportComment {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #65676b;
+  transition: all 0.2s ease;
+}
+
+.buttonReportComment:hover {
+  color: #f02849;
+  transform: scale(1.1);
+}
+
+/* Modal */
+
+.reportModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reportContent {
+  width: 400px;
+  max-width: 90%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.reportContent h3 {
+  margin: 0 0 15px;
+  text-align: center;
+}
+
+.reportSelect {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+}
+
+.reportActions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.reportCancelBtn,
+.reportSubmitBtn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reportCancelBtn {
+  background: #e4e6eb;
+}
+
+.reportSubmitBtn {
+  background: #1877f2;
+  color: white;
+}
+
+.reportSubmitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

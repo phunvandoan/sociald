@@ -31,7 +31,7 @@ export default function Topbar() {
 
     if (value) {
       const results = users.filter((user) =>
-        user.username.toLowerCase().includes(value.toLowerCase())
+        user.username.toLowerCase().includes(value.toLowerCase()),
       );
       setSearchResults(results);
     } else {
@@ -42,12 +42,12 @@ export default function Topbar() {
   const handleLogout = () => {
     if (
       window.confirm(
-        "Bạn có chắc chắn muốn thoát tài khoản chứ 😔😔😔? \n thôi đừng thoát nhấn cancel đi 😥😥😥"
+        "Bạn có chắc chắn muốn thoát tài khoản chứ 😔😔😔? \n thôi đừng thoát nhấn cancel đi 😥😥😥",
       )
     ) {
       dispatch({ type: "LOGOUT" });
     } else {
-      alert("year hoo !!! 🤗🤗🤗 ");
+      alert("Yay!!! 🤗🤗🤗 ");
     }
   };
 
@@ -74,11 +74,7 @@ export default function Topbar() {
                       onClick={() => setSearchTerm("")}
                     >
                       <img
-                        src={
-                          user.profilePicture
-                            ? PF + user.profilePicture
-                            : PF + "person/noAvatar.png"
-                        }
+                        src={user?.avatar}
                         alt={user.username}
                         className="searchResultImg"
                       />
@@ -94,7 +90,7 @@ export default function Topbar() {
             interactive={true}
           >
             <input
-              placeholder="Search for friend, post or video"
+              placeholder="Tìm kiếm bạn bè hoặc người dùng khác"
               className="searchInput"
               value={searchTerm}
               onChange={handleSearch}
@@ -143,7 +139,7 @@ export default function Topbar() {
         </div>
         <Link to={`/profile/${currentUser.username}`}>
           <img
-            src={PF + currentUser.profilePicture}
+            src={currentUser?.avatar.split("=")[0]}
             alt=""
             className="topbarImg"
           />

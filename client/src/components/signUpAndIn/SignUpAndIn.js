@@ -7,7 +7,7 @@ function SignUpAndIn({ children }) {
         <div className="loginLeft">
           <h3 className="loginLogo">SocialD</h3>
           <span className="loginDesc">
-            Connect with friends and the world around you on SocialD.
+            Kết nối với bạn bè và thế giới xung quanh bạn trên SocialD.
           </span>
         </div>
         <div className="loginRight">{children}</div>

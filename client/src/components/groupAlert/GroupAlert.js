@@ -20,12 +20,12 @@ function GroupAler({ group, onDelete, sendDataFromChildToParent }) {
     console.log("handledelte");
     try {
       await axios.delete(
-        `https://sociald.onrender.com/api/groupMessages/${group._id}`,
+        `http://localhost:8800/api/groupMessages/${group._id}`,
         {
           data: {
             userId: currentUser._id,
           },
-        }
+        },
       );
       sendDataFromChildToParent();
     } catch (err) {

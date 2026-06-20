@@ -1,15 +1,25 @@
 const io = require("socket.io")(8900, {
   cors: {
-    // origin: "http://localhost:3000",
-    origin: "https://social-d.vercel.app",
+    origin: "http://localhost:3000",
+    // origin: "https://social-d.vercel.app",
   },
 });
 
 let users = [];
 
+// ======================
+// USER HELPERS
+// ======================
+
 const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
+  const userExists = users.find((u) => u.userId === userId);
+
+  if (!userExists) {
+    users.push({
+      userId,
+      socketId,
+    });
+  }
 };
 
 const removeUser = (socketId) => {
@@ -20,33 +30,82 @@ const getUser = (userId) => {
   return users.find((user) => user.userId === userId);
 };
 
-io.on("connection", (socket) => {
-  //when ceonnect
-  console.log("a user connected.");
+const getUsersByMembers = (members) => {
+  return users.filter((user) => members.includes(user.userId));
+};
 
-  //take userId and socketId from user
+// ======================
+// SOCKET
+// ======================
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  // ======================
+  // ADD USER
+  // ======================
+
   socket.on("addUser", (userId) => {
     addUser(userId, socket.id);
+
+    console.log("Online Users:", users);
+
     io.emit("getUsers", users);
   });
 
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const user = getUser(receiverId);
-    if (user) {
-      io.to(user.socketId).emit("getMessage", {
-        senderId,
-        text,
-      });
-    } else {
-      // Handle the case where the user is not found
-      console.log("User not found with receiverId: ", receiverId);
+  // ======================
+  // PRIVATE MESSAGE
+  // ======================
+
+  socket.on("sendMessage", ({ senderId, receiverId, text, conversationId }) => {
+    const receiver = getUser(receiverId);
+
+    if (!receiver) {
+      console.log("Receiver offline:", receiverId);
+      return;
     }
+
+    io.to(receiver.socketId).emit("getMessage", {
+      senderId,
+      text,
+      conversationId,
+    });
+
+    console.log(`[PRIVATE] ${senderId} -> ${receiverId}: ${text}`);
   });
 
-  //when disconnect
+  // ======================
+  // GROUP MESSAGE
+  // ======================
+
+  socket.on(
+    "sendGroupMessage",
+    ({ senderId, members, text, conversationId }) => {
+      const receivers = getUsersByMembers(members);
+
+      receivers.forEach((receiver) => {
+        if (receiver.userId === senderId) return;
+
+        io.to(receiver.socketId).emit("getMessage", {
+          senderId,
+          text,
+          conversationId,
+        });
+      });
+
+      console.log(`[GROUP ${conversationId}] ${senderId}: ${text}`);
+    },
+  );
+
+  // ======================
+  // DISCONNECT
+  // ======================
+
   socket.on("disconnect", () => {
-    console.log("a user disconnected!");
+    console.log("User disconnected:", socket.id);
+
     removeUser(socket.id);
+
     io.emit("getUsers", users);
   });
 });

@@ -81,8 +81,8 @@ function FlappyBird() {
         </div>
         {gameOver && (
           <div className="flappy-bird-game-over">
-            <p>Game Over</p>
-            <button onClick={handleReset}>Reset</button>
+            <p>Trò chơi kết thúc</p>
+            <button onClick={handleReset}>Đặt lại</button>
           </div>
         )}
       </div>

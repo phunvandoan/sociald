@@ -29,7 +29,7 @@ function RockPaperScissors() {
 
   return (
     <div>
-      <h2 className="titleGame">Rock Paper Scissors</h2>
+      <h2 className="titleGame">Đá Giấy Kéo</h2>
       <div className="choices">
         {choices.map((choice) => (
           <button key={choice} onClick={() => handleChoice(choice)}>
@@ -39,8 +39,8 @@ function RockPaperScissors() {
       </div>
       {userChoice && (
         <div className="result">
-          <p>You chose: {userChoice}</p>
-          <p>Computer chose: {computerChoice}</p>
+          <p>Bạn chọn: {userChoice}</p>
+          <p>Máy tính chọn: {computerChoice}</p>
           <p>{result}</p>
         </div>
       )}

@@ -16,13 +16,9 @@ function ItemNotification({ post }) {
   return (
     <Alert variant={"info"}>
       <Link to={"/profile/" + user.username}>
-        <img
-          className="imgNotification"
-          src={user ? PF + user.profilePicture : PF + "person/noAvatar.png"}
-          alt=""
-        />
+        <img className="imgNotification" src={user?.avatar} alt="" />
       </Link>
-      User {user.username} has been post a new Post !!! I think you should watch
+      User {user.username} đã đăng một bài viết mới !!! Tôi nghĩ bạn nên xem
       😉😉😉
     </Alert>
   );

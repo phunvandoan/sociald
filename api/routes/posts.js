@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
-const User = require("../models/User");
+const User = require("../models/User.model");
 const Comment = require("../models/Comment");
 
 //create a post
@@ -39,7 +39,7 @@ router.delete("/:id", async (req, res) => {
       await User.updateMany(
         {},
         { $pull: { savePosts: req.params.id } },
-        { multi: true }
+        { multi: true },
       );
       await Comment.deleteMany({ postId: req.params.id });
       await post.deleteOne();
@@ -88,7 +88,7 @@ router.get("/timeline/:userId", async (req, res) => {
     const friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
         return Post.find({ userId: friendId });
-      })
+      }),
     );
     res.status(200).json(userPosts.concat(...friendPosts));
   } catch (err) {

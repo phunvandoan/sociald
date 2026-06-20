@@ -32,10 +32,10 @@ export default function Register() {
     <>
       <SignUpAndIn>
         <form className="registerBox" onSubmit={handleClick}>
-          {showError && <Alert variant={"warning"}>Password don't match</Alert>}
+          {showError && <Alert variant={"warning"}>Mật khẩu không khớp</Alert>}
           <input
             className="registerInput"
-            placeholder="Username"
+            placeholder="Tên đăng nhập"
             type="text"
             required
             ref={username}
@@ -49,7 +49,7 @@ export default function Register() {
           />
           <input
             className="registerInput"
-            placeholder="Password"
+            placeholder="Mật khẩu"
             type="password"
             required
             ref={password}
@@ -58,17 +58,17 @@ export default function Register() {
           />
           <input
             className="registerInput"
-            placeholder="Password Again"
+            placeholder="Nhập lại mật khẩu"
             type="password"
             required
             ref={passwordAgain}
             onChange={() => setShowError(false)}
           />
           <button className="registerButton" type="submit">
-            Sign Up
+            Đăng ký
           </button>
           <Link to="/login" style={{ marginLeft: "30%" }}>
-            <button className="loginRegisterButton">Log in</button>
+            <button className="loginRegisterButton">Đăng nhập</button>
           </Link>
         </form>
       </SignUpAndIn>

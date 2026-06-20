@@ -9,15 +9,15 @@ function HomeRightbar({ friendsOfCurrentUser }) {
         <div className="birthdayContainer">
           <img className="birthdayImg" src="assets/gift.png" alt="" />
           <span className="birthdayText">
-            <b>Would you like to understand more about us?.</b>
+            <b>Bạn có muốn tìm hiểu thêm về chúng tôi không?</b>
           </span>
         </div>
         <img className="rightbarAd" src="assets/ad.jpg" alt="" />
-        <h4 className="rightbarTitle">Online Friends</h4>
+        <h4 className="rightbarTitle">Bạn bè của bạn</h4>
       </Link>
       <ul className="rightbarFriendList">
         {friendsOfCurrentUser.slice(0, 7).map((u) => (
-          <Online key={u._id} user={u} />
+          <Online key={u._id} user={u} disabledOnline={true} />
         ))}
       </ul>
     </>

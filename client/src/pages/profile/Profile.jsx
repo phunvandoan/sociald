@@ -5,7 +5,7 @@ import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
-import { InsertPhoto, Person } from "@mui/icons-material";
+import { InsertPhoto, Person, Flag } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {
   deleteFile,
@@ -17,8 +17,16 @@ import { Button } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 
+const REPORT_REASONS = [
+  "Spam hoặc lừa đảo",
+  "Ngôn từ thù ghét / quấy rối",
+  "Nội dung khiêu dâm, phản cảm",
+  "Giả mạo danh tính",
+  "Bạo lực, kích động",
+  "Khác",
+];
+
 export default function Profile() {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const { user: currentUser } = useContext(AuthContext);
   const [user, setUser] = useState();
   const username = useParams().username;
@@ -29,72 +37,50 @@ export default function Profile() {
   const fromInputRef = useRef();
   const relationshipInputRef = useRef();
 
+  // ===== Báo cáo vi phạm =====
+  const [showReportForm, setShowReportForm] = useState(false);
+  const [reportReason, setReportReason] = useState(REPORT_REASONS[0]);
+  const [reportDetail, setReportDetail] = useState("");
+  const [reportSubmitting, setReportSubmitting] = useState(false);
+
   useEffect(() => {
     getUserByName(username, setUser);
   }, [username]);
 
-  const handleChangeAvatar = async (e) => {
-    deleteFile(user.profilePicture);
-    const newUser = {
-      userId: user?._id,
-    };
+  const isOwnProfile = currentUser?.username === username;
 
-    if (e.target.files.length > 0) {
-      const file = e.target.files[0];
-      const data = new FormData();
-      const fileName = Date.now() + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
-      newUser.profilePicture = fileName;
-      updateAvatar(user?._id, newUser, fileName, userData, setUser, data);
-    }
-  };
+  const handleSubmitReport = async () => {
+    if (!currentUser?._id || !user?._id || reportSubmitting) return;
 
-  const handleChangeCover = async (e) => {
-    deleteFile(user.coverPicture);
-    const newUser = {
-      userId: user?._id,
-    };
+    const reason =
+      reportReason === "Khác" && reportDetail.trim()
+        ? reportDetail.trim()
+        : reportReason;
 
-    if (e.target.files.length > 0) {
-      const file = e.target.files[0];
-      const data = new FormData();
-      const fileName = Date.now() + file.name;
-      data.append("name", fileName);
-      data.append("file", file);
-      newUser.coverPicture = fileName;
-      udpateCoverPicture(user?._id, newUser, fileName, setUser, data);
-    }
-  };
+    setReportSubmitting(true);
 
-  const handleUpdateInfo = async () => {
     try {
-      const newUserInfo = currentUser?.isAdmin
-        ? {
-            isAdmin: currentUser?.isAdmin,
-          }
-        : {
-            userId: currentUser?._id,
-          };
-      if (descInputRef.current.value !== ("" && null))
-        newUserInfo.desc = descInputRef.current.value;
-      if (cityInputRef.current.value !== ("" && null))
-        newUserInfo.city = cityInputRef.current.value;
-      if (fromInputRef.current.value !== ("" && null))
-        newUserInfo.from = fromInputRef.current.value;
-      if (relationshipInputRef.current.value !== ("" && null))
-        newUserInfo.relationship = relationshipInputRef.current.value;
-      await axios.put(
-        `https://sociald.onrender.com/api/users/${currentUser?._id}`,
-        newUserInfo
-      );
-      setUser((prevUser) => ({
-        ...prevUser,
-        ...newUserInfo,
-      }));
-      setShowUpdateInfo(false);
+      await axios.post("http://localhost:8800/api/reports", {
+        reporterId: currentUser._id,
+        targetId: user._id,
+        reason,
+        type: "user",
+      });
+
+      alert("Đã gửi báo cáo, cảm ơn bạn đã phản hồi!");
+
+      setShowReportForm(false);
+      setReportReason(REPORT_REASONS[0]);
+      setReportDetail("");
     } catch (err) {
       console.log(err);
+
+      alert(
+        err?.response?.data?.message ||
+          "Gửi báo cáo thất bại, vui lòng thử lại sau.",
+      );
+    } finally {
+      setReportSubmitting(false);
     }
   };
 
@@ -109,64 +95,23 @@ export default function Profile() {
           <div className="profileRightTop">
             <div className="profileCover">
               {/* Cover */}
-              <Link target="_blank" to={PF + user?.coverPicture}>
+              <Link target="_blank" to={user?.coverPicture}>
                 <img
                   className="profileCoverImg"
-                  src={
-                    user && user?.coverPicture
-                      ? PF + user?.coverPicture
-                      : `${PF}person/noCover.png`
-                  }
+                  src={user?.coverPicture}
                   alt=""
                 />
               </Link>
-              <label htmlFor="fileCover">
-                {userData._id === user?._id && (
-                  <div className="changeCoverPicture">
-                    <InsertPhoto
-                      style={{ fontSize: "4rem" }}
-                      className="iconChangeCoverPicture"
-                    />
-                  </div>
-                )}
-                <input
-                  style={{ display: "none" }}
-                  type="file"
-                  id="fileCover"
-                  accept=".png, .jpeg, .jpg"
-                  onChange={handleChangeCover}
-                />
-              </label>
               {/* Avartar */}
-              <Link to={PF + user?.profilePicture} target="_blank">
+              <Link to={user?.avatar} target="_blank">
                 <img
                   className="profileUserImg"
-                  src={
-                    user && user?.profilePicture
-                      ? PF + user?.profilePicture
-                      : `${PF}person/noAvatar.png`
-                  }
+                  src={user?.avatar?.split("=")[0]}
                   alt=""
                 />
               </Link>
-              <label htmlFor="fileAvatar">
-                {userData._id === user?._id && (
-                  <div className="changeAvatar">
-                    <Person
-                      className="iconChangeAvatar"
-                      style={{ fontSize: "4rem" }}
-                    />
-                  </div>
-                )}
-                <input
-                  style={{ display: "none" }}
-                  type="file"
-                  id="fileAvatar"
-                  accept=".png, .jpeg, .jpg"
-                  onChange={handleChangeAvatar}
-                />
-              </label>
             </div>
+
             <div className="profileInfo">
               {user && (
                 <div className="profileInfo">
@@ -174,44 +119,64 @@ export default function Profile() {
                   <span className="profileInfoDesc">{user.desc}</span>
                 </div>
               )}
-            </div>
-          </div>
-          <h4 className="rightbarTitle">
-            <div style={{ textAlign: "center" }}>
-              {currentUser?._id === user?._id && (
-                <Button
-                  variant="contained"
-                  onClick={() => setShowUpdateInfo(!showUpdateInfo)}
+
+              {/* Không cho tự báo cáo chính mình */}
+              {!isOwnProfile && user && (
+                <button
+                  className="reportButton"
+                  onClick={() => setShowReportForm((prev) => !prev)}
                 >
-                  +
-                </Button>
-              )}
-              <br />
-              {showUpdateInfo && currentUser?._id === user?._id && (
-                <>
-                  <input ref={descInputRef} placeholder="Description" /> <br />
-                  <input ref={cityInputRef} placeholder="City" /> <br />
-                  <input ref={fromInputRef} placeholder="From:" /> <br />
-                  <select
-                    ref={relationshipInputRef}
-                    style={{
-                      padding: "15px 30px",
-                      border: "none",
-                      outline: "none",
-                    }}
-                  >
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="-">-</option>
-                  </select>
-                  {"====> "}
-                  <Button variant="contained" onClick={handleUpdateInfo}>
-                    Submit
-                  </Button>
-                </>
+                  <Flag style={{ fontSize: 16 }} />
+                  {showReportForm ? "Đóng" : "Báo cáo vi phạm"}
+                </button>
               )}
             </div>
-          </h4>
+
+            {showReportForm && (
+              <div className="reportForm">
+                <label className="reportLabel">Lý do báo cáo</label>
+
+                <select
+                  className="reportSelect"
+                  value={reportReason}
+                  onChange={(e) => setReportReason(e.target.value)}
+                >
+                  {REPORT_REASONS.map((reason) => (
+                    <option key={reason} value={reason}>
+                      {reason}
+                    </option>
+                  ))}
+                </select>
+
+                {reportReason === "Khác" && (
+                  <textarea
+                    className="reportDetailInput"
+                    placeholder="Mô tả chi tiết vi phạm..."
+                    value={reportDetail}
+                    onChange={(e) => setReportDetail(e.target.value)}
+                  />
+                )}
+
+                <div className="reportFormActions">
+                  <button
+                    className="reportCancelButton"
+                    onClick={() => setShowReportForm(false)}
+                  >
+                    Hủy
+                  </button>
+
+                  <button
+                    className="reportSubmitButton"
+                    onClick={handleSubmitReport}
+                    disabled={reportSubmitting}
+                  >
+                    {reportSubmitting ? "Đang gửi..." : "Gửi báo cáo"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="profileRightBottom">
             <Feed username={username} />
             <Rightbar user={user} />

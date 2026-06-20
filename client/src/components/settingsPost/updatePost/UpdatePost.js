@@ -2,7 +2,8 @@ import { useContext, useRef, useState } from "react";
 import { PermMedia, Cancel } from "@mui/icons-material";
 import { AuthContext } from "../../../context/AuthContext";
 import "./updatePost.css";
-import { deleteFile, updatePost, upload } from "../../../apiCall";
+import { updatePost } from "../../../apiCall";
+import { uploadImage, uploadVideo } from "../../../api/upload.api";
 
 export default function UpdatePost({
   post,
@@ -23,25 +24,31 @@ export default function UpdatePost({
       desc: desc.current.value,
     };
     if (file) {
-      deleteFile(post.img);
       const data = new FormData();
-      const fileName = Date.now() + file.name;
-      data.append("name", fileName);
       data.append("file", file);
-      newPost.img = fileName;
-      upload(data);
+      let res;
+      if (file.type.includes("image")) {
+        res = await uploadImage(data);
+      } else if (file.type.includes("video")) {
+        res = await uploadVideo(data);
+      }
+      if (Array.isArray(res)) {
+        newPost.urlUploadContent = res.map((item) => item.url);
+      }
     }
     try {
       await updatePost(post._id, newPost);
-      userPostData.map((userPost) => {
+      userPostData = userPostData.map((userPost) => {
         if (userPost._id === post._id) {
-          if (newPost.img) userPost.img = newPost.img;
+          if (newPost.urlUploadContent)
+            userPost.urlUploadContent = newPost.urlUploadContent;
           if (newPost.desc) userPost.desc = newPost.desc;
           sendDataToParentUpdate(userPost);
         }
-        localStorage.setItem("userPost", JSON.stringify(userPostData));
-        setShowUpdate(false);
+        return userPost;
       });
+      localStorage.setItem("userPost", JSON.stringify(userPostData));
+      setShowUpdate(false);
     } catch (error) {
       console.log(error);
     }
@@ -51,17 +58,9 @@ export default function UpdatePost({
     <div className="shareUpdate">
       <div className="shareWrapperUpdate">
         <div className="shareTopUpdate">
-          <img
-            className="shareProfileImgUpdate"
-            src={
-              user.profilePicture
-                ? PF + user.profilePicture
-                : PF + "person/noAvatar.png"
-            }
-            alt=""
-          />
+          <img className="shareProfileImgUpdate" src={user?.avatar} alt="" />
           <input
-            placeholder={"What's in your mind " + user.username + " ?"}
+            placeholder={"Bạn đang nghĩ gì " + user.username + " ?"}
             className="shareInputUpdate"
             ref={desc}
           />
@@ -101,7 +100,7 @@ export default function UpdatePost({
           <div className="shareOptionsUpdate">
             <label htmlFor="fileUpdate" className="shareOptionUpdate">
               <PermMedia htmlColor="tomato" className="shareIconUpdate" />
-              <span className="shareOptionTextUpdate">Photo or Video</span>
+              <span className="shareOptionTextUpdate">Ảnh hoặc Video</span>
               <input
                 style={{ display: "none" }}
                 type="file"
@@ -112,7 +111,7 @@ export default function UpdatePost({
             </label>
           </div>
           <button className="shareButtonUpdate" type="submit">
-            Update
+            Cập nhật
           </button>
         </form>
       </div>

@@ -88,7 +88,7 @@ function Minesweeper() {
 
   return (
     <div>
-      <h2 className="titleGame">Minesweeper</h2>
+      <h2 className="titleGame">Dò Mìn</h2>
       <div className="minesweeper-board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="minesweeper-row">
@@ -109,8 +109,8 @@ function Minesweeper() {
                     ? "💣"
                     : cell.value
                   : cell.flagged
-                  ? "🚩"
-                  : ""}
+                    ? "🚩"
+                    : ""}
               </div>
             ))}
           </div>

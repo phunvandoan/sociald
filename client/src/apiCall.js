@@ -5,8 +5,8 @@ export const loginCall = async (userCredentail, dispatch) => {
   dispatch({ type: "LOGIN_START" });
   try {
     const res = await axios.post(
-      "https://sociald.onrender.com/api/auth/login",
-      userCredentail
+      "http://localhost:8800/api/auth/login",
+      userCredentail,
     );
     dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
   } catch (err) {
@@ -18,17 +18,14 @@ export const followUser = async (followed, userId, currentUserId, dispatch) => {
   try {
     if (followed) {
       await axios.put(
-        "https://sociald.onrender.com/api/users/" + userId + "/unfollow",
-        { userId: currentUserId }
+        "http://localhost:8800/api/users/" + userId + "/unfollow",
+        { userId: currentUserId },
       );
       dispatch({ type: "UNFOLLOW", payload: userId });
     } else {
-      await axios.put(
-        "https://sociald.onrender.com/api/users/" + userId + "/follow",
-        {
-          userId: currentUserId,
-        }
-      );
+      await axios.put("http://localhost:8800/api/users/" + userId + "/follow", {
+        userId: currentUserId,
+      });
       dispatch({ type: "FOLLOW", payload: userId });
     }
   } catch (err) {
@@ -38,7 +35,7 @@ export const followUser = async (followed, userId, currentUserId, dispatch) => {
 
 export const register = async (user, navigate) => {
   try {
-    await axios.post("https://sociald.onrender.com/api/auth/register", user);
+    await axios.post("http://localhost:8800/api/auth/register", user);
     navigate("/login");
   } catch (err) {
     console.log(err);
@@ -48,7 +45,7 @@ export const register = async (user, navigate) => {
 export const getAllUserOther = async (setUserOthers, currentUserId) => {
   try {
     const useOther = await axios.get(
-      `https://sociald.onrender.com/api/users/allUser/${currentUserId}`
+      `http://localhost:8800/api/users/allUser/${currentUserId}`,
     );
     setUserOthers(useOther.data);
   } catch (error) {
@@ -58,7 +55,7 @@ export const getAllUserOther = async (setUserOthers, currentUserId) => {
 
 export const getUser = async (userId, setUser) => {
   const res = await axios.get(
-    `https://sociald.onrender.com/api/users?userId=${userId}`
+    `http://localhost:8800/api/users?userId=${userId}`,
   );
   setUser(res.data);
 };
@@ -66,7 +63,7 @@ export const getUser = async (userId, setUser) => {
 export const getfriendList = async (userId, setFriends) => {
   try {
     const friendList = await axios.get(
-      "https://sociald.onrender.com/api/users/friends/" + userId
+      "http://localhost:8800/api/users/friends/" + userId,
     );
     setFriends(friendList.data);
   } catch (err) {
@@ -77,7 +74,7 @@ export const getfriendList = async (userId, setFriends) => {
 export const getUserByName = async (username, setUser) => {
   try {
     const res = await axios.get(
-      `https://sociald.onrender.com/api/users?username=${username}`
+      `http://localhost:8800/api/users?username=${username}`,
     );
     setUser(res.data);
   } catch (error) {
@@ -91,14 +88,11 @@ export const updateAvatar = async (
   fileName,
   userData,
   setUser,
-  data
+  data,
 ) => {
   try {
     upload(data);
-    await axios.put(
-      `https://sociald.onrender.com/api/users/${userId}`,
-      newUser
-    );
+    await axios.put(`http://localhost:8800/api/users/${userId}`, newUser);
     setUser((prevUser) => ({ ...prevUser, profilePicture: fileName }));
     userData.profilePicture = fileName;
     localStorage.setItem("user", JSON.stringify(userData));
@@ -112,14 +106,11 @@ export const udpateCoverPicture = async (
   newUser,
   fileName,
   setUser,
-  data
+  data,
 ) => {
   try {
     upload(data);
-    await axios.put(
-      `https://sociald.onrender.com/api/users/${userId}`,
-      newUser
-    );
+    await axios.put(`http://localhost:8800/api/users/${userId}`, newUser);
     setUser((prevUser) => ({ ...prevUser, coverPicture: fileName }));
   } catch (err) {
     console.log(err);
@@ -130,7 +121,7 @@ export const udpateCoverPicture = async (
 export const getComments = async (postId, setComments) => {
   try {
     const res = await axios.get(
-      "https://sociald.onrender.com/api/comments/allComments/" + postId
+      "http://localhost:8800/api/comments/allComments/" + postId,
     );
     setComments(res.data);
   } catch (error) {
@@ -141,12 +132,12 @@ export const getComments = async (postId, setComments) => {
 export const postNewComment = async (
   newCommentOfCurrentUser,
   comments,
-  setComments
+  setComments,
 ) => {
   try {
     const res = await axios.post(
-      "https://sociald.onrender.com/api/comments/",
-      newCommentOfCurrentUser
+      "http://localhost:8800/api/comments/",
+      newCommentOfCurrentUser,
     );
     setComments([...comments, res.data]);
   } catch (err) {
@@ -158,15 +149,12 @@ export const deleteComment = async (
   commentId,
   currentUser,
   comments,
-  setComments
+  setComments,
 ) => {
   try {
-    await axios.delete(
-      `https://sociald.onrender.com/api/comments/${commentId}`,
-      {
-        data: { userId: currentUser._id, isAdmin: currentUser.isAdmin },
-      }
-    );
+    await axios.delete(`http://localhost:8800/api/comments/${commentId}`, {
+      data: { userId: currentUser._id, isAdmin: currentUser.isAdmin },
+    });
     setComments(comments.filter((comment) => comment._id !== commentId));
   } catch (err) {
     console.log(err);
@@ -178,11 +166,11 @@ export const updateComment = async (
   UpdateText,
   currentUser,
   comments,
-  setComments
+  setComments,
 ) => {
   try {
     await axios.put(
-      `https://sociald.onrender.com/api/comments/${commentId}`,
+      `http://localhost:8800/api/comments/${commentId}`,
       currentUser.isAdmin
         ? {
             isAdmin: currentUser.isAdmin,
@@ -191,7 +179,7 @@ export const updateComment = async (
         : {
             userId: currentUser._id,
             text: UpdateText,
-          }
+          },
     );
     setComments(
       comments.map((comment) => {
@@ -199,7 +187,7 @@ export const updateComment = async (
           return { ...comment, text: UpdateText };
         }
         return comment;
-      })
+      }),
     );
   } catch (err) {
     console.log(err);
@@ -209,7 +197,7 @@ export const updateComment = async (
 export const getAllComment = async (postId, setComments) => {
   try {
     const res = await axios.get(
-      "https://sociald.onrender.com/api/comments/allComments/" + postId
+      "http://localhost:8800/api/comments/allComments/" + postId,
     );
     setComments(res.data);
   } catch (error) {
@@ -220,23 +208,16 @@ export const getAllComment = async (postId, setComments) => {
 // post call api
 export const getPost = async (username, userId, setPosts) => {
   const res = username
-    ? await axios.get(
-        "https://sociald.onrender.com/api/posts/profile/" + username
-      )
-    : await axios.get(
-        "https://sociald.onrender.com/api/posts/timeline/" + userId
-      );
+    ? await axios.get("http://localhost:8800/api/posts/profile/" + username)
+    : await axios.get("http://localhost:8800/api/posts/timeline/" + userId);
   setPosts(res.data.reverse());
 };
 
 export const likePost = async (userId, postId) => {
   try {
-    await axios.put(
-      "https://sociald.onrender.com/api/posts/" + postId + "/like",
-      {
-        userId: userId,
-      }
-    );
+    await axios.put("http://localhost:8800/api/posts/" + postId + "/like", {
+      userId: userId,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -244,7 +225,7 @@ export const likePost = async (userId, postId) => {
 
 export const deletePost = async (postId, userId, isAdmin) => {
   try {
-    await axios.delete(`https://sociald.onrender.com/api/posts/${postId}`, {
+    await axios.delete(`http://localhost:8800/api/posts/${postId}`, {
       data: { isAdmin: isAdmin, userId: userId },
     });
   } catch (err) {
@@ -254,10 +235,7 @@ export const deletePost = async (postId, userId, isAdmin) => {
 
 export const updatePost = async (postId, newPost) => {
   try {
-    await axios.put(
-      `https://sociald.onrender.com/api/posts/${postId}`,
-      newPost
-    );
+    await axios.put(`http://localhost:8800/api/posts/${postId}`, newPost);
   } catch (error) {
     console.log(error);
   }
@@ -266,13 +244,10 @@ export const updatePost = async (postId, newPost) => {
 export const createPost = async (
   newPost,
   userPostData,
-  sendDataToChildFromParent
+  sendDataToChildFromParent,
 ) => {
   try {
-    const res = await axios.post(
-      "https://sociald.onrender.com/api/posts",
-      newPost
-    );
+    const res = await axios.post("http://localhost:8800/api/posts", newPost);
     userPostData = [res.data, ...userPostData];
     localStorage.setItem("userPost", JSON.stringify(userPostData));
     sendDataToChildFromParent(userPostData);
@@ -285,7 +260,7 @@ export const createPost = async (
 // upload
 export const upload = async (data) => {
   try {
-    await axios.post("https://sociald.onrender.com/api/upload", data);
+    await axios.post("http://localhost:8800/api/upload", data);
     console.log("updateSuccess");
   } catch (err) {
     console.log(err);
@@ -295,7 +270,7 @@ export const upload = async (data) => {
 //deletefile
 export const deleteFile = async (fileName) => {
   try {
-    await axios.delete(`https://sociald.onrender.com/api/delete/${fileName}`);
+    await axios.delete(`http://localhost:8800/api/delete/${fileName}`);
   } catch (err) {
     console.log(err);
   }

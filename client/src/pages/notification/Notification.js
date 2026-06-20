@@ -14,7 +14,7 @@ function Notification() {
     const userDataPost = async () => {
       try {
         const res = await axios.get(
-          `https://sociald.onrender.com/api/posts/timeline/` + currentUser._id
+          `http://localhost:8800/api/posts/timeline/` + currentUser._id,
         );
         setUserDataPost(res.data.reverse());
       } catch (err) {

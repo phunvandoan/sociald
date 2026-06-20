@@ -128,3 +128,92 @@
     right: 41vw;
   }
 }
+
+.reportButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: 1px solid #e74c3c;
+  border-radius: 5px;
+  background-color: white;
+  color: #e74c3c;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reportButton:hover {
+  background-color: #fdecea;
+}
+
+.reportForm {
+  margin: 15px auto 0;
+  max-width: 400px;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.reportLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+.reportSelect {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.reportDetailInput {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.reportFormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.reportCancelButton {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.reportSubmitButton {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reportSubmitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input,
+textarea,
+select {
+  outline: none;
+}
